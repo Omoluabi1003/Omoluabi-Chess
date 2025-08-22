@@ -1,0 +1,53 @@
+create table players (
+  id bigint primary key generated always as identity,
+  name text not null,
+  email text unique not null
+);
+
+create table games (
+  id bigint primary key generated always as identity,
+  player1_id bigint references players (id),
+  player2_id bigint references players (id),
+  board_state text not null,
+  current_turn bigint references players (id),
+  status text not null check (status in ('ongoing', 'completed')),
+  created_at timestamp with time zone default now()
+);
+
+create table moves (
+  id bigint primary key generated always as identity,
+  game_id bigint references games (id),
+  player_id bigint references players (id),
+  move_description text not null,
+  move_time timestamp with time zone default now()
+);
+
+drop table if exists moves;
+
+drop table if exists games;
+
+drop table if exists players;
+
+create table players (
+  id bigint primary key generated always as identity,
+  name text not null,
+  email text unique not null
+);
+
+create table chess_games (
+  id bigint primary key generated always as identity,
+  player1_id bigint references players (id),
+  player2_id bigint references players (id),
+  board_state text not null,
+  current_turn bigint references players (id),
+  status text not null check (status in ('ongoing', 'completed')),
+  created_at timestamp with time zone default now()
+);
+
+create table chess_moves (
+  id bigint primary key generated always as identity,
+  game_id bigint references chess_games (id),
+  player_id bigint references players (id),
+  move_description text not null,
+  move_time timestamp with time zone default now()
+);
